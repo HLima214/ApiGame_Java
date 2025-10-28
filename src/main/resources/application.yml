@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: gameapi
+
+  datasource:
+    url: jdbc:oracle.com.br
+    driverClassName: org.h2.Driver
+    username: rm551528
+    password: 090205
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+  flyway:
+    enabled: true
+    clean-on-validation-error: true
+    clean-disabled: false
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+    operationsSorter: alpha
+    tagsSorter: alpha
+
+jwt:
+  secret: "change-me-in-prod-32-chars-minimum-secret-key-123456"
+  expiration: 3600000
+
