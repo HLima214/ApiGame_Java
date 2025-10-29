@@ -62,3 +62,35 @@ mvn -q -DskipITs test
 2. **Implementar Docker**
     - Validar a possibilidade de subida da aplicação via Docker utilizando outro banco de dados e descrever como esses 
 passos seriam realizados!
+
+# Docker
+O primeiro passo é criar um arquivo Dockerfile na raiz do projeto.
+
+## Etapa de Build:
+
+Utilize uma imagem base como maven:3.9-eclipse-temurin-17-alpine e nomeie-a como estágio de build (AS build). Para otimizar o processo, copie apenas o arquivo pom.xml e execute o comando mvn dependency:go-offline, garantindo que todas as dependências sejam baixadas previamente. Depois disso, copie o diretório src e gere o artefato da aplicação com:
+```
+RUN mvn -q clean package -DskipTests
+```
+Esse comando cria o arquivo .jar pronto para execução.
+
+## Etapa de Execução:
+Na segunda parte, utilize uma imagem mais leve, como eclipse-temurin:17-jre-alpine, voltada apenas para rodar a aplicação. Copie o .jar gerado na etapa anterior para o novo contêiner, por exemplo:
+
+```
+COPY --from=build /app/target/*.jar app.jar
+```
+
+Em seguida, exponha a porta padrão da aplicação com:
+
+```
+EXPOSE 8080
+```
+
+E defina o ponto de entrada que inicializa o aplicativo Java:
+
+```
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+Esse processo demonstra que o projeto Java pode ser executado em um ambiente Docker, permitindo que a aplicação seja facilmente iniciada, inclusive em conjunto com outro banco de dados configurado no mesmo ambiente de containers (como um serviço adicional no docker-compose.yml).

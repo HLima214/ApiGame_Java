@@ -3,8 +3,8 @@ spring:
     name: gameapi
 
   datasource:
-    url: jdbc:oracle.com.br
-    driverClassName: org.h2.Driver
+    url: jdbc:oracle:thin:@localhost:1521/XE
+    driverClassName: oracle.jdbc.OracleDriver
     username: rm551528
     password: 090205
 
@@ -18,7 +18,7 @@ spring:
       ddl-auto: validate
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: org.hibernate.dialect.OracleDialect
 
   flyway:
     enabled: true
